@@ -1,0 +1,110 @@
+cyb-ms domain. username : gauravkam password : Lexbi$$32 
+
+Kristen Paulson for all content team related TFS asks
+
+IAM Accounts Administration <accounts@microsoft.com>
+
+Remove backup files:
+Get-ChildItem "S:\BackUps\MSLT-296\LEXBI_STG_16PE" | ? { $_.PSIsContainer } | Remove-Item -Recurse -Force
+Include all dbs from 316, 318
+
+Printer
+
+sc.exe config lanmanworkstation depend= bowser/mrxsmb10/mrxsmb20/nsi
+sc.exe config mrxsmb10 start= auto 
+
+sc.exe config lanmanworkstation depend= bowser/mrxsmb10/mrxsmb20/nsi
+sc.exe config mrxsmb20 start= auto 
+
+Original - Robocopy "S:\BackUps" \\mslt-11\LEXBI_BU\MSLT-318 /E /Z /R:1 /W:60 /NP
+Original MSLT-319 - Robocopy "S:\Program Files\Microsoft SQL Server\MSSQL13.LEXBI_DI03_16PPE\MSSQL\Backup" \\Mslt-11\LEXBI_BU\MSLT-319 /MT /E /Z /R:1 /W:60 /NP
+
+Robocopy "S:\BACK-UP\MSLT-319_LEXBI_DI03_16PPE" \\Mslt-11\LEXBI_BU\MSLT-319\MSLT-319_LEXBI_DI03_16PPE /MT /E /Z /R:1 /W:30 /NP
+
+
+Standard Naming Conventions:
+ 
+Step 1: MSLT-302\LEXBI_DI_PE_BackupTo_S: Drive
+Step 2: CopyTo_MSLT-11
+
+Schedule Name: Full Backup MSLT-318
+
+
+Robocopy "S:\BACK-UP\MSLT-296_LEXBI_CTRL_TCF" \\Mslt-11\LEXBI_BU\MSLT-296\MSLT-296_LEXBI_CTRL_TCF /MT /E /Z /R:1 /W:30 /NP
+
+MSLT-296_LEXBI_STG_16PE
+
+
+Robocopy "S:\BACK-UP\MSLT-296_LEXBI_CTRL_TCF" \\Mslt-11\LEXBI_BU\MSLT-317\MSLT-317_LEXBI_DI03_16PE /MT /E /Z /R:1 /W:30 /NP
+
+
+
+Robocopy "S:\BACK-UP\MSLT-316" \\Mslt-11\LEXBI_BU\MSLT-316\MSLT-316 /move /MT /E /Z /R:1 /W:30 /NP
+
+Robocopy "D:\Backup\MSLT-316" C:\MSLT-316\MSLT-316 /move /MT /E /Z /R:1 /W:30 /NP
+
+MSLT-228 :
+
+Exit code: 3
+
+Robocopy "S:\BACK-UP\MSLT-228_LEXBI_DI01_PE" \\Mslt-11\LEXBI_BU\MSLT-228\MSLT-228_LEXBI_DI01_PE /move /MT /E /Z /R:1 /W:30 /NP
+
+
+
+Lxppedi- CDE#$RFVcde34rfv, new pwd- VFR$%TGBvfr45tgb
+
+lxpedi- VFR$%TGBvfr45tgb
+LRitops- MarM@!!@Bug2018#
+
+Redmond\lxpeas -> lxpedi
+REDMOND\lxperd -> Redmond\lxpedi
+Redmond\lexbisup 
+Redmond\lxperpt 
+
+Static IP entries are completed for MSLT-297, 298, 319.
+
+MSLBIDW-backup from MSLT-301 is disabled
+
+52656
+
+[‎3/‎14/‎2018 3:44 AM] yaikhomba Meetei kh (Unisys Corp): 
+Office un uninstall 
+https://support.office.com/en-us/article/Uninstall-Office-2013-Office-2016-or-Office-365-from-a-Windows-computer-9dd49b83-264a-477a-8fcc-2fdf5dbf61d8?ui=en-US&rs=en-US&ad=US 
+ Office re install 
+https://portal.office.com/OLS/MySoftware.aspx   
+
+
+SQL Server 2016 SP1 CU7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,209 @@
+Get-Help
+
+--------------------------------------------------------------------------------------------------------
+
+Update-Help
+get-help
+get-help get-service
+get-help *serv*
+get-help get-service -detailed
+get-help get-service -example
+get-help get-service -full
+get-help get-service -showwindow
+get-help get-service -online
+get-service -name a*, b*
+get-help about_Quoting
+
+-------------Parameter Sets & Common parameters---------------------------------------------------------
+
+# SYNTAX
+
+Get-EventLog [-AsString] [-ComputerName <string[]>] [-List] [<Com
+monParameters>]
+
+Get-EventLog [-LogName] <string> [[-InstanceId] <Int64[]>] [-Afte
+r <DateTime>] [-AsBaseObject] [-Before <DateTime>] [-ComputerName
+<string[]>] [-EntryType <string[]>] [-Index <Int32[]>] [-Message
+<string>] [-Newest <int>] [-Source <string[]>] [-UserName <strin
+g[]>] [<CommonParameters>]
+
+
+
+Two parameter sets will have common & unique parameters.
+
+
+------------Optional & Mandatory Parameters-------------------------------------------------------------
+
+# Optional parameters are enclosed in square brackets. for e.g. -computername
+# Mandatory parameters aren't enclosed square brackets. for e.g. -logname
+
+
+------------Positional Parameters-----------------------------------------------------------------------
+
+# Only the parameter name is enclosed with square brackets. It defines position of parameter, here it is 1st. Only provide the logname without typing -logname. for e.g. -logname
+
+# -newest parameter is optional, because its entirely enclosed within square bracketes. But the -newest parameter name isn't in square brackets, which tells if we use it, we must type parameter name.
+
+# <string []> it will accept more than one values, <string> will not.
+
+
+------------Pipeline Deeper-----------------------------------------------------------------------------
+
+	
+	Get-Content .\computers.txt | Get-Service
+
+# pipeline parameter binding- Powershell figures out which parameter of Get-Service will accept the output of Get-Content.
+
+# pipeline input ByValue- 
+
+	Powershell looks at the type of object produced by 1st command & tries to see if any parameter of 2nd command can accept that type of object from the pipeline.
+	
+	e.g. Get-Content .\computers.txt | Get-Service
+
+# PowerShell only permits one parameter to accept a given type of object from the pipeline ByValue.
+
+
+# pipeline input ByPropertyName- With this backup method, it’s possible for multiple parameters of 2nd command to become involved.
+
+	e.g. get-process calc | dir
+
+# Custom Properties- Hash Table
+
+	e.g. get-adcomputer -filter * | select -property name, @{name='ComputerName';expression={$_.name}}
+
+	     get-adcomputer -filter * | select -property @{name='ComputerName';expression={$_.name}}	
+	     
+  	     get-adcomputer -filter * | select -property @{name='ComputerName';expression={$_.name}} | get-service -name bits
+
+# Parenthetical- when command don't accept parameters from pipeline
+
+	e.g. get-wmiobject -class win32_bios -computername (get-adcomputer -filter * | select -expandproperty name) v2- expands piped object to string
+	
+	e.g. get-wmiobject -class win32_bios -computername (get-adcomputer -filter *).name v3
+
+	e.g. get-adcomputer -filter * | get-wmiobject win32_bios -computername {$_.name} v3
+
+
+-------------Variable------------------------------------------------------------------------------------
+
+# $myvar="get-service bits"
+
+# $myvar.status, $myvar.stop(), $myvar.refresh()
+
+# $var=read-host "Enter a ComputerName"
+
+# write-host, write-output, write-warning, write-error
+
+# ${this a test var} = 1
+
+
+------------Remoting---------------------------------------------------------------------------------------
+
+# enter-pssession- one to one remoting
+
+# invoke-command- one to many remoting
+
+# get-windowsfeature- part of server manager module, list all of windows raoles & features
+
+# install-windowsfeature
+
+
+-------------Sessions------------------------------------------------------------------------------------
+
+# $s= new-pssession -computername S1
+
+# icm -session $s {get-service}
+
+# measure-command {icm -computername S1 {get-process}}
+
+# Measure-Command {icm -Session 2 {Get-Process}}
+
+# $servers= 'DC', 'S1'; $servers | foreach{start iexplore http://$_}
+
+# icm -session $s {install-windowsfeature web-server}
+
+# import-pssession -session $s -module ActiveDiretory -prefix remote
+
+
+------------Scripting------------------------------------------------------------------------------------
+
+# get-wmiobject win32_logicaldisk -filter "DeviceID='C:'" | select @{n='freegb';e={$_.freespace / 1gb -as [int]}}
+
+
+
+[cmdletbinding()]
+param(
+	[parameter(mandatory=$True)]
+	[string[]]$ComputerName,
+	$bogus
+	)
+
+get-wmiobject -computername $ComputerName -class win32_logicaldisk -filter "DeviceID= 'c:'"
+
+# cmdletbinding- adds common parameters to script.
+
+# . .\diskinfor.ps1
+
+# Get-DiskInfo -computername s1 -outvariable a
+
+# $Env:PSModulePath -split ";" , cat Env:\PSModulePath
+
+
+-----------Types of Variables---------------------------------------------------------------------------
+
+# unblock-file to unblock remote script files.
+
+# [string]$myvar= "test", [int]$var="10", $var=[int]"1"-to store value temporary, [datettime]$d="12/25/13", [datetime]$d="12/25/13"
+
+# [validateset("a","b","c")][string]$x = "a"
+
+
+-----------Quotation Marks------------------------------------------------------------------------------
+
+
+# $i = "PowerShell"
+
+"This is the variable $i, and $i Rocks!"
+'This is the variable $i, and $i Rocks!'
+"This is the variable `$i, and $i Rocks!"
+
+
+----------Parenthesis-----------------------------------------------------------------------------------
+
+# $p = get-process lsass
+
+"Process id = $($p.id)"
+
+# here strings @' script '@ to preserve variables ($sign)
+
+
+----------Object Members--------------------------------------------------------------------------------
+
+# $s = get-service -name bits
+
+# $s.status, $s.stop()
+
+# $msg = "Service name is $($s.name.toupper())"
+
+# $s = get-service
+
+# "Service name is $($s[4].displayname)"
+
+
+
+Logical constructs
+
+Looping constructs
+
+
+----------Function--------------------------------------------------------------------------------------
+
+# . .\t.ps1, t - for execution of function
+
+# mandatory paramter, valuefrompipeline,helpmessage - [Parameter(Mandatory=$true,valuefrompipeline=$true,valuefrompipelinebypropertyname=$true,helpmessage='one or more computers')] 
+
+# Alias- [Alias('hostname')]
+
+# validateset- [validateset('dc','client')]
+
+# validatecount- [validatecount(0,2)]

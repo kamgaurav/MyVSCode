@@ -1,0 +1,2 @@
+﻿cls
+Get-NetFirewallProfile
