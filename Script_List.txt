@@ -1,0 +1,30 @@
+- Server Inventory by environment and usage
+- Server Health Monitoring 
+- Patch Install and Security Updates
+- Backup and Restore health for SQL DataMart’s
+- Job Failure Monitoring and incident co-ordination with SE Team
+- File and Monitor Ticket progress for Outages - Co-ordination with Site Services
+- Server rebuilds and Installs Co-ordination with Site Services
+Taks performed by me
+- Server Health Monitoring 
+-   Windows Server Environment management.
+- Patch Install and Security Updates
+-   SQL Server Instance Installation.
+-   SQL Server Backup Management.
+SQL Script List:
+1. Get SQL Service status
+2. Backup Analysis service database
+3. Backup SQL database-scheduled task
+4. Check database & log file size
+5. Shrink log file size
+6. Get SQL Backup job status for all servers & email it
+7. Find services configured with service account
+8. Change password of SQL service account
+Windows Script List:
+1. Get uptime of server
+2. Get disk space report
+3. Get event logs
+OS Info- Win32_Operating System
+Computer Info(CPU/RAM)- Win32_ComputerSystem
+Service- Win32_Service
+Disk- Win323_Logicaldisk
