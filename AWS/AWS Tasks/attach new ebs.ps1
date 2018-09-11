@@ -89,8 +89,7 @@ Function Initialize-EC2Disk {
         Where partitionstyle -eq "raw" | `
         Initialize-Disk -PartitionStyle MBR -PassThru | `
         New-Partition -AssignDriveLetter -UseMaximumSize | `
-        Format-Volume -FileSystem NTFS -Confirm:$false -force',
-        'Get-Volume | Where {$_.FileSystemLabel -ne "System Reserved"}'
+        Format-Volume -FileSystem NTFS -Confirm:$false -force'
         )
 
     $parameter = @{
@@ -99,8 +98,8 @@ Function Initialize-EC2Disk {
     $document = 'AWS-RunPowerShellScript'
 
     $cmd = Send-SSMCommand -DocumentName $document -Parameter $parameter -InstanceId $InstanceId
-    #Get-SSMCommand -CommandId $cmd.CommandId
-
+    $cmd.Status
+    
 }
 
 create-ebsvolume
