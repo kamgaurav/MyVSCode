@@ -21,7 +21,8 @@
 
          $volume = New-EC2Volume -Size $size -VolumeType $volumetype -AvailabilityZone $az -Encrypted $false
         
-         Write-Host "Creating Volume of Size: $size GB, Type: $volumetype" -ForegroundColor Green
+         Write-Host ""   
+         Write-Host "Creating Volume of Size: $size GB, Volume Type: $volumetype" -ForegroundColor Green
 
          while ($volume.status -ne 'available') {
 
@@ -31,8 +32,9 @@
             
             }
          
-         # add additional disk   
-         Write-Host "Attaching Volume to $computername" -ForegroundColor Green
+         # add additional disk 
+         Write-Host ""  
+         Write-Host "Attaching Volume to $computername..." -ForegroundColor Green
          Add-EC2Volume -VolumeId $volume.volumeid -InstanceId $InstanceId -Device $Device | Out-Null
 
          # Tag new volume with instance name
@@ -97,9 +99,26 @@ Function Initialize-EC2Disk {
     }
     $document = 'AWS-RunPowerShellScript'
 
-    $cmd = Send-SSMCommand -DocumentName $document -Parameter $parameter -InstanceId $InstanceId
-    $cmd.Status
+    Write-Host ""
+    Write-Host "Initializing disk..." -ForegroundColor Green
     
+    Try {
+    $Cmd = Send-SSMCommand -DocumentName $document -Parameter $parameter -InstanceId $InstanceId
+    While ($Cmd.Status -ne 'Success')
+    {
+        $Cmd = Get-SSMCommand -CommandId $Cmd.CommandId
+        Start-Sleep 10
+    }
+    Write-Host ""
+    Write-Host "Disk is initialized & formatted" -ForegroundColor Green
+    #Get-SSMCommand -CommandId $Cmd.CommandId | Select-Object DocumentName, Status
+    }
+
+    Catch {
+
+        Write-Host ""
+        Write-Host "Failed to initialize disk" -ForegroundColor Red
+    }
 }
 
 create-ebsvolume
