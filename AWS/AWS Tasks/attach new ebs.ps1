@@ -2,31 +2,31 @@
 
     param(
     
-        [parameter(mandatory=$true,HelpMessage="Please enter EC2 Instance Name")][string] $computername,
-        [parameter(mandatory=$true)][int] $size,
-        [parameter(mandatory=$false)][string] $device,
-        [parameter(mandatory=$true)][string] $volumetype
+        [parameter(mandatory=$true,HelpMessage="Please enter EC2 Instance Name")][string] $InstanceName,
+        [parameter(mandatory=$true)][int] $Size,
+        [parameter(mandatory=$false)][string] $Device,
+        [parameter(mandatory=$true)][string] $VolumeType
                
         )
 
-         $filter = New-Object Amazon.EC2.Model.Filter
-         $filter.Name = 'tag:Name'
-         $filter.Value = "$computername"
+         $Filter = New-Object Amazon.EC2.Model.Filter
+         $Filter.Name = 'tag:Name'
+         $Filter.Value = "$InstanceName"
          
-         $reservation = Get-EC2Instance -Filter $filter | Select-Object -ExpandProperty instances
+         $Reservation = Get-EC2Instance -Filter $Filter | Select-Object -ExpandProperty instances
          
-         $InstanceId = $reservation.InstanceId
-         $az = $reservation.Placement.AvailabilityZone
+         $InstanceId = $Reservation.InstanceId
+         $AZ = $Reservation.Placement.AvailabilityZone
          $Device = Get-Device -InstanceId $InstanceId
 
-         $volume = New-EC2Volume -Size $size -VolumeType $volumetype -AvailabilityZone $az -Encrypted $false
+         $Volume = New-EC2Volume -Size $Size -VolumeType $VolumeType -AvailabilityZone $AZ -Encrypted $false
         
          Write-Host ""   
-         Write-Host "Creating Volume of Size: $size GB, Volume Type: $volumetype" -ForegroundColor Green
+         Write-Host "Creating Volume of Size: $Size GB, Volume Type: $VolumeType" -ForegroundColor Green
 
-         while ($volume.status -ne 'available') {
+         while ($Volume.status -ne 'available') {
 
-            $volume = Get-EC2Volume -VolumeId $volume.volumeid
+            $Volume = Get-EC2Volume -VolumeId $Volume.volumeid
 
             Start-Sleep -Seconds 15
             
@@ -34,23 +34,23 @@
          
          # add additional disk 
          Write-Host ""  
-         Write-Host "Attaching Volume to $computername..." -ForegroundColor Green
-         Add-EC2Volume -VolumeId $volume.volumeid -InstanceId $InstanceId -Device $Device | Out-Null
+         Write-Host "Attaching Volume to $InstanceName..." -ForegroundColor Green
+         Add-EC2Volume -VolumeId $Volume.volumeid -InstanceId $InstanceId -Device $Device | Out-Null
 
          # Tag new volume with instance name
-         $tag = New-Object Amazon.EC2.Model.Tag
-         $tag.key = 'Name'
-         $tag.Value = $computername
+         $Tag = New-Object Amazon.EC2.Model.Tag
+         $Tag.key = 'Name'
+         $Tag.Value = $InstanceName
 
-         New-EC2Tag -Resource $volume.VolumeId -Tag $tag
-         While ($volume.status -ne 'in-use') {
+         New-EC2Tag -Resource $Volume.VolumeId -Tag $Tag
+         While ($Volume.status -ne 'in-use') {
 
-            $volume = Get-EC2Volume -VolumeId $volume.volumeid
+            $Volume = Get-EC2Volume -VolumeId $Volume.volumeid
 
             Start-Sleep -Seconds 10
             
             }
-        (Get-EC2Volume -VolumeId $volume.VolumeId).Attachments[0]
+        (Get-EC2Volume -VolumeId $Volume.VolumeId).Attachments[0]
         Initialize-EC2Disk -InstanceId $InstanceId
 }
 
@@ -86,7 +86,7 @@ Function Initialize-EC2Disk {
               [parameter (mandatory=$true)][string] $InstanceId
          )
 
-    $commands = @(
+    $Commands = @(
         'Get-Disk | `
         Where partitionstyle -eq "raw" | `
         Initialize-Disk -PartitionStyle MBR -PassThru | `
@@ -94,16 +94,16 @@ Function Initialize-EC2Disk {
         Format-Volume -FileSystem NTFS -Confirm:$false -force'
         )
 
-    $parameter = @{
-          commands = $commands
+    $Parameter = @{
+          commands = $Commands
     }
-    $document = 'AWS-RunPowerShellScript'
+    $Document = 'AWS-RunPowerShellScript'
 
     Write-Host ""
     Write-Host "Initializing disk..." -ForegroundColor Green
     
     Try {
-    $Cmd = Send-SSMCommand -DocumentName $document -Parameter $parameter -InstanceId $InstanceId
+    $Cmd = Send-SSMCommand -DocumentName $Document -Parameter $Parameter -InstanceId $InstanceId
     While ($Cmd.Status -ne 'Success')
     {
         $Cmd = Get-SSMCommand -CommandId $Cmd.CommandId
