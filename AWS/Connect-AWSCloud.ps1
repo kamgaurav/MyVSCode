@@ -8,6 +8,7 @@ $region = 'us-east-1'
 $profile = 'dev'
 
 Set-AWSCredentials -AccessKey $accesskey -SecretKey $secretkey -StoreAs $profile
+Set-DefaultAWSRegion -Region $region
 
 Initialize-AWSDefaultConfiguration -ProfileName $profile -Region $region
 
