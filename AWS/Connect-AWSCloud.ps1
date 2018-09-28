@@ -1,8 +1,8 @@
-﻿$accesskey = Read-Host "Enter AccessKey:"
-$secretkey = Read-Host "Enter SecretKey:"
+﻿$accesskey = Read-Host "Enter AccessKey"
+$secretkey = Read-Host "Enter SecretKey"
 
-#$region = Read-Host "Enter Region:"
-#$profile = Read-Host "Enter Profile Name:"
+#$region = Read-Host "Enter Region"
+#$profile = Read-Host "Enter Profile Name"
 
 $region = 'us-east-1'
 $profile = 'dev'
