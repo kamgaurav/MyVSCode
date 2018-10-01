@@ -15,4 +15,5 @@
 # Write-Host (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
 
    
-    get-ec2instance -Filter @{Name="tag:Name"; values="Stop_EC2"} | Stop-EC2Instance
+    Get-EC2Instance -Filter @{Name="tag:StartSchedule"; values="9AM-MON-FRI"} | Start-EC2Instance
+    Write-Host " EC2 Instances are started"
