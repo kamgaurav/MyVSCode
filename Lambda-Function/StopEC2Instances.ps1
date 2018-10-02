@@ -15,5 +15,5 @@
 # Write-Host (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
 
    
-    Get-EC2Instance -Filter @{Name="tag:Name"; values="Stop_EC2"} | Stop-EC2Instance
+    Get-EC2Instance -Filter @{Name="tag:StopSchedule"; values="6PM-MON-FRI"} | Stop-EC2Instance
     Write-Host " EC2 Instances are stopped"
