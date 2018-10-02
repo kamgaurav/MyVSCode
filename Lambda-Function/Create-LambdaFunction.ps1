@@ -4,7 +4,7 @@ $NewIAMRole = New-IAMRole -AssumeRolePolicyDocument (Get-Content -raw LambdaAssu
 #Attach IAM Policy to Role
 Register-IAMRolePolicy -RoleName "LambdaEC2StartStop" -PolicyArn $NewIAMPolicy.arn
 
-#New-AWSPowerShellLambda -ScriptName 'Stop-EC2Instance' -Template Basic
+#New-AWSPowerShellLambda -ScriptName 'StopEC2Instances' -Template Basic
 #Publish lambda function to stop EC2 instances
 Publish-AWSPowerShellLambda -ScriptPath '.\StopEC2Instances.ps1' -Name  'StopEC2Instances' -Region us-east-1 -IAMRoleArn $NewIAMRole.Arn
 
