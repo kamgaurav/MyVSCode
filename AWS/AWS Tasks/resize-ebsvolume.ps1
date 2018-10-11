@@ -1,4 +1,3 @@
-
 Param (
     [string][Parameter(Mandatory = $True)] $VolumeId,
     [int][Parameter(Mandatory = $True)] $NewSize
@@ -28,8 +27,7 @@ $Parameter = @{
 $Document = 'AWS-RunPowerShellScript'
 
 Write-Host ""
-Write-Host "Extending D: drive..." -ForegroundColor Green
-    
+Write-Host "Extending D: drive..." -ForegroundColor Green 
 Try {
     $Cmd = Send-SSMCommand -DocumentName $Document -Parameter $Parameter -InstanceId $InstanceId
     While ($Cmd.Status -ne 'Success') {
