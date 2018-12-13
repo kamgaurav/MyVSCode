@@ -1,0 +1,10 @@
+ {
+  "StartAt": "EBSSnapshot",
+  "States": {
+    "EBSSnapshot": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-1:527359538290:function:Lambda-EBSSnapshot",
+      "End": true
+    }
+  }
+ }

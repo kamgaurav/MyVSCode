@@ -1,0 +1,14 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "states:StartExecution"
+            ],
+            "Resource": [
+                "arn:aws:states:eu-west-1:527359538290:stateMachine:StateMachine-CreateSnapshot"
+            ]
+        }
+    ]
+}
