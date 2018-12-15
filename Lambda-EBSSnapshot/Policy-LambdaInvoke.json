@@ -7,7 +7,8 @@
                 "lambda:InvokeFunction"
             ],
             "Resource": [
-                "arn:aws:lambda:eu-west-1:527359538290:function:Lambda-EBSSnapshot"
+                "arn:aws:lambda:eu-west-1:527359538290:function:Create-EBSSnapshot",
+                "arn:aws:lambda:eu-west-1:527359538290:function:Remove-EBSSnapshot"
             ]
         }
     ]

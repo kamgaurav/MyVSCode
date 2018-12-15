@@ -15,9 +15,10 @@ Register-IAMRolePolicy -RoleName "Role-StateMachine-Invoke" -PolicyArn $NewIAMPo
 
 
 #Publish Lambda Function
-Publish-AWSPowerShellLambda -ScriptPath '.\EBSSnapshot.ps1' -Name 'Lambda-EBSSnapshot' -Region eu-west-1 -IAMRoleArn $NewIAMRole1.Arn
+Publish-AWSPowerShellLambda -ScriptPath '.\Create-EBSSnapshot.ps1' -Name 'Create-EBSSnapshot' -Region eu-west-1 -IAMRoleArn $NewIAMRole1.Arn
+Publish-AWSPowerShellLambda -ScriptPath '.\Remove-EBSSnapshot.ps1' -Name 'Remove-EBSSnapshot' -Region eu-west-1 -IAMRoleArn $NewIAMRole1.Arn
 
-$StateMachine = New-SFNStateMachine -Name 'StateMachine-CreateSnapshot' -Definition (Get-Content -Raw StateMachineDefinition-CreateSnapshot.json) -RoleArn $NewIAMRole2.Arn -Region 'eu-west-1'
+$StateMachine = New-SFNStateMachine -Name 'StateMachine-ManageSnapshot' -Definition (Get-Content -Raw StateMachineDefinition.json) -RoleArn $NewIAMRole2.Arn -Region 'eu-west-1'
 
 #Get-SFNStateMachine -StateMachineArn $StateMachine.StateMachineArn
 
