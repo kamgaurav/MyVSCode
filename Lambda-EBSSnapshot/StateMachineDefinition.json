@@ -1,4 +1,4 @@
- {
+{
   "StartAt": "Create-EBSSnapshot",
   "States": {
     "Create-EBSSnapshot": {
@@ -6,12 +6,10 @@
       "Resource": "arn:aws:lambda:eu-west-1:527359538290:function:Create-EBSSnapshot",
       "Next": "Remove-EBSSnapshot"
     },
-
-    "Remove-EBSSnapshot":{  
+    "Remove-EBSSnapshot": {
       "Type": "Task",
       "Resource": "arn:aws:lambda:eu-west-1:527359538290:function:Remove-EBSSnapshot",
       "End": true
     }
   }
- }
-
+}
