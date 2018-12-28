@@ -1,6 +1,5 @@
 <powershell>
 
-
 $RawDisk = Get-Disk | Where-Object {$_.Number -ne '0'} | Sort-Object -Property Number
 
 foreach ($Disk in $RawDisk) {
