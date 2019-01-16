@@ -5,9 +5,17 @@ get-wmiobject
 $s = New-PSSession -ComputerName mslt-253
 Invoke-Command -Session $s -ScriptBlock {cd C:\Checklist\Output; ls | Sort-Object -Property LastWriteTime | Select-Object -last 1}
 Invoke-Command -Session $s -ScriptBlock {Get-ChildItem -path  C:\Checklist\Output | Sort-Object -Property LastWriteTime | Select-Object -last 1}
-Copy-Item -Path "C:\Checklist\output\Checklist(21December185841PM).xls" -Destination "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist 21 December 2017.xlsx" -FromSession $s
-Test-Path "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist 21 December 2017.xlsx"
+Copy-Item -Path "C:\Checklist\output\Checklist(2January85230AM).xls" -Destination "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist 2 Jan 2019.xlsx" -FromSession $s
+Test-Path "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist 2 Jan 2019.xlsx"
 Remove-PSSession $s
+
+$s = New-PSSession -ComputerName mslt-253
+Invoke-Command -Session $s -ScriptBlock {cd C:\Checklist\Output; ls | Sort-Object -Property LastWriteTime | Select-Object -last 1}
+Invoke-Command -Session $s -ScriptBlock {Get-ChildItem -path  C:\Checklist\Output | Sort-Object -Property LastWriteTime | Select-Object -last 1}
+Copy-Item -Path "C:\Checklist\output\Checklist(2January85230AM).xls" -Destination "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist 2 Jan 2019.xlsx" -FromSession $s
+Test-Path "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist 2 Jan 2019.xlsx"
+Remove-PSSession $s
+
 
 Scripts:
 
