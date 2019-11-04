@@ -22,5 +22,3 @@ Scripts:
 1. Fetch all drive size from servers everyday.
 2. Change password for lxpedi from credentials from security for all servers.
 3. Change password for lxpedi on service account for all serves.
-
-
