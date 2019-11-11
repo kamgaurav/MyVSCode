@@ -1,0 +1,2 @@
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force
+Get-Item WSMan:\localhost\Client\TrustedHosts

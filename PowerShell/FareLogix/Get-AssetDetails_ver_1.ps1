@@ -7,10 +7,9 @@ $Logs = @()
 Foreach ($s in $servers)
 
 {
+            $ErrorActionPreference = “SilentlyContinue”        
             $ComputerInfo = New-Object PSObject
-            $i = New-Object PSObject
-            $ErrorActionPreference = “SilentlyContinue”
-             
+                         
             $Connection = Test-Connection $s -Count 1 -Quiet
 
             if ($Connection -eq "True"){
