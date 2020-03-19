@@ -1,0 +1,42 @@
+PS C:\Windows\system32> Get-Command -Module SwisPowerShell
+
+CommandType     Name                                               Version    Source                                                                 
+-----------     ----                                               -------    ------                                                                 
+Cmdlet          Connect-Swis                                       2.5.0.214  SwisPowerShell                                                         
+Cmdlet          Get-SwisData                                       2.5.0.214  SwisPowerShell                                                         
+Cmdlet          Get-SwisObject                                     2.5.0.214  SwisPowerShell                                                         
+Cmdlet          Invoke-SwisVerb                                    2.5.0.214  SwisPowerShell                                                         
+Cmdlet          New-SwisObject                                     2.5.0.214  SwisPowerShell                                                         
+Cmdlet          Remove-SwisObject                                  2.5.0.214  SwisPowerShell                                                         
+Cmdlet          Set-SwisObject                                     2.5.0.214  SwisPowerShell
+
+PS C:\Windows\system32> Get-Command -Module PowerOrion
+
+CommandType     Name                                               Version    Source                                                                 
+-----------     ----                                               -------    ------                                                                 
+Function        Add-OrionDiscoveredInterfaces                      0.0.6.1    PowerOrion                                                             
+Function        Get-OrionApplicationCredential                     0.0.6.1    PowerOrion                                                             
+Function        Get-OrionApplicationTemplateId                     0.0.6.1    PowerOrion                                                             
+Function        Get-OrionHostFromSwisConnection                    0.0.6.1    PowerOrion                                                             
+Function        Get-OrionNextAvailableIPAddress                    0.0.6.1    PowerOrion                                                             
+Function        Get-OrionNode                                      0.0.6.1    PowerOrion                                                             
+Function        Get-OrionNodeID                                    0.0.6.1    PowerOrion                                                             
+Function        Get-OrionWMICredential                             0.0.6.1    PowerOrion                                                             
+Function        New-OrionCustomProperty                            0.0.6.1    PowerOrion                                                             
+Function        New-OrionInterface                                 0.0.6.1    PowerOrion                                                             
+Function        New-OrionNode                                      0.0.6.1    PowerOrion                                                             
+Function        New-OrionPollerType                                0.0.6.1    PowerOrion                                                             
+Function        Remove-OrionNode                                   0.0.6.1    PowerOrion                                                             
+
+Install-Module -Name SwisPowerShell
+Import-Module SwisPowerShell
+
+Install-Module PowerOrion
+Import-Module PowerOrion
+
+$swis = Connect-Swis
+Get-SwisData $swis 'SELECT NodeID, Caption FROM Orion.Nodes'
+
+Get-OrionNode -SwisConnection $swis -IPAddress 10.34.0.170
+#For Server 10.34.0.170 NodeID=1495
+Get-SwisObject $swis -Uri 'swis://localhost/Orion/Orion.Nodes/NodeID=1495/CustomProperties'

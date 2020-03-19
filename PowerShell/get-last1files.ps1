@@ -8,3 +8,5 @@ Copy-Item -Path "C:\Checklist\output\Checklist(15November800AM).xls" -Destinatio
 Test-Path "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist(15November800AM).xls"
 Remove-PSSession $s
 
+#Delete 5000 files
+Get-ChildItem -File -Filter *.RCV | Sort-Object -Property LastWriteTime | Select-Object -First 50000 | Remove-Item

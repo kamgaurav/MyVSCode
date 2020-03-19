@@ -1,0 +1,1 @@
+Get-EventLog -LogName System -EntryType Error -After '2/6/2020 00:00:00' -Source "Service Control Manager" -Message "*FLX*" | ft -AutoSize -Wrap

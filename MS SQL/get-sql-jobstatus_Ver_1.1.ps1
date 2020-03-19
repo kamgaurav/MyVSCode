@@ -47,3 +47,7 @@ $j = $sqlServer.JobServer.Jobs | Where-Object {$_.name -like 'DatabaseBackup - A
     Send-MailMessage -From "v-gakamb@microsoft.com" -to "v-gakamb@microsoft.com" , "v-ajmand@microsoft.com" , "v-saauti@microsoft.com" -BodyAsHtml "SQL Server Database Backup Job Status" `
     -SmtpServer "smtp.office365.com"  -Subject "SQL Backup Job Status on: $(Get-Date -format dd-MMMM-yyyy)" -Port "587" -Credential $credential -UseSsl -Attachments "C:\Checklist\SQL_Backup Job Status\Output\$a"
 
+
+  $smtpPass =  ConvertTo-SecureString -AsPlainText "Nvme@1920#" -Force
+    $smtpUser = 'flxdomain\gkamble'
+    $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $smtpUser,$smtpPass
