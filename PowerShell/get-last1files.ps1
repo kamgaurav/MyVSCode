@@ -9,4 +9,4 @@ Test-Path "D:\gauravkam\LEX IT\Checklist_LEXBI\Output\Checklist(15November800AM)
 Remove-PSSession $s
 
 #Delete 5000 files
-Get-ChildItem -File -Filter *.RCV | Sort-Object -Property LastWriteTime | Select-Object -First 50000 | Remove-Item
+Get-ChildItem -Path T:\TypeBMsg\DXC\in -File -Filter *.RCV | Sort-Object -Property LastWriteTime | Select-Object -First 50 | Remove-Item

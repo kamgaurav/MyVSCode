@@ -40,3 +40,6 @@ Get-SwisData $swis 'SELECT NodeID, Caption FROM Orion.Nodes'
 Get-OrionNode -SwisConnection $swis -IPAddress 10.34.0.170
 #For Server 10.34.0.170 NodeID=1495
 Get-SwisObject $swis -Uri 'swis://localhost/Orion/Orion.Nodes/NodeID=1495/CustomProperties'
+
+# Install SolarWinds through command line
+msiexec /I Solarwinds-Agent.msi /qn TRANSFORMS=SolarWinds-Agent.mst
