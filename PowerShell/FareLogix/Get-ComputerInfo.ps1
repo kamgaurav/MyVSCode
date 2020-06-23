@@ -24,4 +24,3 @@ Add-Member -InputObject $ComputerInfo -MemberType NoteProperty -Name "SerialNumb
 
 $ComputerInfo
 }
-ComputerInfo

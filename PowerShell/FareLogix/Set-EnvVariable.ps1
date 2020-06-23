@@ -4,12 +4,14 @@ function Set-Env (){
 
     $AWS_ACCESS_KEY_ID = Read-Host -Prompt "Enter AWS Access Key ID"
     $AWS_SECRET_ACCESS_KEY = Read-Host -Prompt "Enter AWS Secret Access Key"
+    $AWS_SESSION_TOKEN = Read-Host -Prompt "Enter AWS Session Token"
 
     #Set-Item -Path Env:AWS_ACCESS_KEY_ID -Value ($Env:AWS_ACCESS_KEY_ID + "$AWS_ACCESS_KEY_ID")
     #Set-Item -Path Env:AWS_SECRET_ACCESS_KEY -Value ($Env:AWS_SECRET_ACCESS_KEY + "$AWS_SECRET_ACCESS_KEY")
 
     [Environment]::SetEnvironmentVariable("AWS_ACCESS_KEY_ID","$AWS_ACCESS_KEY_ID","Machine")
     [Environment]::SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY","$AWS_SECRET_ACCESS_KEY","Machine")
+    [Environment]::SetEnvironmentVariable("AWS_SESSION TOKEN_KEY","$AWS_SESSION_TOKEN","Machine")
     Write-Host ""
     Write-Host -ForegroundColor Yellow "Environment Variables Added !!"
     Write-Host ""

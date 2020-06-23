@@ -13,13 +13,30 @@ if ($TestCon -eq 'True')
             # This will only execute if the Invoke-WebRequest is successful.
             $StatusCode = $Response.StatusCode
         }
-
         catch
         {
             $StatusCode = $_.Exception.Response.StatusCode.value__
         }
             $StatusCode
-        
     } 
-    
+}
+
+# SolarWinds Template for Synthetic Request.
+
+$url = 'http://${IP}:8805'
+$req = [system.Net.WebRequest]::Create($url)
+try {
+  $res = $req.GetResponse()
+} 
+catch [System.Net.WebException] {
+  $res = $_.Exception.Response
+}
+if ([int]$res.StatusCode -eq 500) {
+  Write-Host "Statistic.Status: 200"
+  Write-Host "Message.Status: Up"
+  exit 0
+} else {
+  Write-Host "Statistic.Status: 500"
+  Write-Host "Message.Status: Down"
+  exit 1
 }

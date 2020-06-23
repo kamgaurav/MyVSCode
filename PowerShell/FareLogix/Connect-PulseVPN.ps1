@@ -7,7 +7,7 @@ function Connect-VPN {
 
     cd 'C:\Program Files (x86)\Common Files\Pulse Secure\Integration'
 
-    .\pulselauncher.exe -u gkamble -p Fbur@2020# -url access.farelogix.com/corporate -r users
+    .\pulselauncher.exe -u gkamble -p Jne@2020# -url access.farelogix.com/corporate -r users
     
 }
 

@@ -1,7 +1,9 @@
-﻿$Servers = Get-Content D:\MyVSCode\PowerShell\FareLogix\Serverlist.txt
+﻿$Credential = Get-Credential
+
+$Servers = Get-Content D:\MyVSCode\PowerShell\FareLogix\Serverlist.txt
 $RemoteComputer =  @()
 $myArray = @()
-$Credential = Get-Credential
+
 #Run the commands for each server in the list
 Foreach ($S in $Servers)
 {
@@ -15,7 +17,8 @@ Foreach ($S in $Servers)
 
         if ($PSSession.State -eq 'Opened') 
         {     
-            $RemoteComputer = Invoke-Command -Session $PSSession -FilePath C:\Users\gkamble\Documents\Get-ComputerInfo.ps1
+            $RemoteComputer = Invoke-Command -Session $PSSession -FilePath C:\Users\gkamble\Documents\Get-ComputerInfo.ps1 `
+            | Select * -ExcludeProperty PSComputerName, RunspaceId, PSShowComputerName
             [array]$myArray += $RemoteComputer
         }
         else

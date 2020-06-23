@@ -1,49 +1,56 @@
-﻿$folders = Get-ChildItem -Path c:\ -Filter flx*
+﻿$ServerName = ([System.Net.Dns]::GetHostByName(($env:computerName))).HostName
+$ServerIPAdd = @(@(Get-WmiObject Win32_NetworkAdapterConfiguration | Select-Object -ExpandProperty IPAddress) -like "*.*")[0]
 
-$folders.Name[0]
+$Data = @()
 
-Test-Path -Path C:\$($folders.Name[0])\Bi-rpt.xtr
-
-Test-Path -Path C:\$($folders.Name[1])\Bi-rpt.xtr
-
-$file = Get-ChildItem -Path "C:\$($folders.Name[0])\Bi-rpt.xtr"
-
-$file| select *
-
-Get-NetIPAddress
-
-Get-CimInstance -ClassName win32_networkadapterconfiguration | Where {$_.DNSDomain -eq 'cybage.com'} | Select-Object -ExpandProperty IPAddress 
-
-Get-CimInstance -ClassName Win32_OperatingSystem | select *
-
-Get-CimInstance -ClassName Win32_ComputerSystem 
-
-$folders = Get-ChildItem -Path c:\ -Filter flx*
-
-$obj = @()
-
-for ($i=0; $i -lt 2; $i++) {
-
-$sub_folders = 'DCServer\log', 'DMServer\log', 'PricingEngine\log'
-
-foreach ($s in $sub_folders) {
-
-    if ((Test-Path -Path C:\$($folders.Name[$i])\$s\Bi-rpt.xtr) -eq 'True' -and (Get-Item -Path C:\$($folders.Name[$i])\$s\Bi-rpt.xtr).Length/1mb -gt 40) {
-        
-        $xtr_file = Get-Item -Path C:\$($folders.Name[$i])\$s\Bi-rpt.xtr
-
-        $obj += [pscustomobject] [ordered] @{
-
-            
-            $xtr_file.FullName
-            [math]::round(($xtr_file.Length)/1mb, 2)
-
+Get-ChildItem -Path c:\ -Filter tmp* | foreach {
+    $Folder = $_.Name
+    $Sub_Folders = 'Test\log'
+    foreach ($S in $Sub_Folders) {
+        if ((Test-Path -Path C:\$Folder\$S\Bi-rpt.xtr) -eq 'True' -and (Get-Item -Path C:\$Folder\$S\Bi-rpt.xtr).Length/1mb -gt 40) {
+            $xtr_File = Get-Item -Path C:\$Folder\$S\Bi-rpt.xtr
+            $Data += [pscustomobject] [ordered] @{
+                'ServerName' = $ServerName
+                'ServerIPAdd' = $ServerIPAdd
+                'FilePath' = $xtr_File.FullName
+                'FileSize' = "$([math]::round(($xtr_File.Length)/1mb, 2))MB"
+            }
         }
     }
 }
 
+if ($Data.Count -ge 1 ){
+    Write-Host "Statistic.FileSize: $($Data.FileSize)"
+    Write-Host "Message.FileSize: $($Data.FilePath)" 
+}
+else {
+    Write-Host "Statistic.FileSize: 0"
+    Write-Host "Message.FileSize: None"
 }
 
-$xtr_file.FullName
-[math]::round(($xtr_file.Length)/1mb, 2)
+# Alternate Method
 
+function get-file_size {
+$Obj = @()
+
+$ServerName = ([System.Net.Dns]::GetHostByName(($env:computerName))).HostName
+$ServerIPAdd = @(@(Get-WmiObject Win32_NetworkAdapterConfiguration | Select-Object -ExpandProperty IPAddress) -like "*.*")[0]
+
+$Folder = Get-ChildItem -Path C:\ -Filter flx* -Directory
+$Folder | foreach {
+    $File = Get-ChildItem -Path $_.FullName -Depth 2 -Filter Bi-rpt.xtr
+    if ($File.count -ge 1) {
+        $File | foreach {
+            $Obj += [pscustomobject] [ordered] @{
+                'ServerName' = $ServerName
+                'ServerIPAdd' = $ServerIPAdd
+                'FilePath' = $_.DirectoryName
+                'FileSize' = "$([math]::round(($_.Length)/1mb, 2))MB"
+            }
+        }
+    }
+}
+$Obj
+}
+
+get-file_size
