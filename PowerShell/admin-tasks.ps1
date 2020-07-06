@@ -1,4 +1,6 @@
-﻿cls
+﻿#There are two admin-tasks scripts
+
+cls
 write-host '###############################'
 write-host '#                             #'
 write-host '#       Admin Tasks           #'
